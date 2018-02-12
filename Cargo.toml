@@ -3,8 +3,13 @@ name = "rpi-led-matrix"
 description = "Bindings for Hzeller RPi-RGB-Led-Matrix"
 version = "0.1.0"
 authors = ["Vincent Pasquier <vincentpasquier@posteo.net>"]
+repository = "https://github.com/helvethor/rust-rpi-rgb-led-matrix"
+homepage = "https://github.com/helvethor/rust-rpi-rgb-led-matrix"
 build = "build.rs"
-license = "GPL-3.0-or-later"
+license = "GPL-3.0"
+license-file = "LICENSE.md"
+readme = "README.md"
+
 
 [build-dependencies]
 gcc = "*"
