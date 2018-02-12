@@ -3,6 +3,7 @@ name = "rpi-led-matrix"
 version = "0.1.0"
 authors = ["Vincent Pasquier <vincentpasquier@posteo.net>"]
 build = "build.rs"
+license = "GPL-3.0-or-later"
 
 [build-dependencies]
 gcc = "*"
