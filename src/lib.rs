@@ -125,11 +125,13 @@ impl Drop for LedFont {
 mod tests {
     use super::*;
     use std::{thread, time};
+    use std::f64::consts::PI;
 
     fn led_matrix() -> LedMatrix {
         let mut options = LedMatrixOptions::new();
-        options.set_hardware_mapping("adafruit-hat");
+        options.set_hardware_mapping("adafruit-hat-pwm");
         options.set_chain_length(2);
+        options.set_hardware_pulsing(false);
         //options.set_inverse_colors(true);
         //options.set_refresh_rate(true);
         LedMatrix::new(Some(options)).unwrap()
@@ -215,6 +217,29 @@ mod tests {
                 x + text_width, baseline, &color, 0, false);
             canvas = matrix.swap(canvas);
             thread::sleep(time::Duration::new(0, 50000000));
+        }
+    }
+
+    #[test]
+    fn gradient() {
+        let matrix = led_matrix();
+        let canvas = matrix.canvas();
+        let mut color = LedColor {
+            red: 0,
+            green: 0,
+            blue: 0
+        };
+        let period = 400;
+        let duration = time::Duration::new(3, 0);
+        let sleep_duration = duration / period;
+
+        for t in 0..period {
+            let t = t as f64;
+            color.red = ((PI * t / period as f64).sin() * 255.) as u8;
+            color.green = ((2. * PI * t / period as f64).cos() * 255.) as u8;
+            color.blue = ((3. * PI * t / period as f64 + 0.3).cos() * 255.) as u8;
+            canvas.fill(&color);
+            thread::sleep(sleep_duration);
         }
     }
 

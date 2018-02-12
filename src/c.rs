@@ -34,7 +34,7 @@ impl LedMatrixOptions {
 
     pub fn new() -> LedMatrixOptions {
         LedMatrixOptions {
-            hardware_mapping: CString::new("default").unwrap().into_raw(),
+            hardware_mapping: CString::new("regular").unwrap().into_raw(),
             rows: 32,
             chain_length: 1,
             parallel: 1,
