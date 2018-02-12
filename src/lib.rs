@@ -1,4 +1,5 @@
 extern crate libc;
+mod c;
 
 use libc::{c_int, c_char};
 use std::ptr::null;
@@ -6,11 +7,10 @@ use std::ffi::CString;
 use std::path::Path;
 use std::ops::Deref;
 
-mod c;
-
 pub use c::LedCanvas;
 pub use c::LedMatrixOptions;
 pub use c::LedColor;
+
 
 pub struct LedMatrix {
     handle: *mut c::LedMatrix,
@@ -20,7 +20,6 @@ pub struct LedMatrix {
 pub struct LedFont {
     handle: *mut c::LedFont
 }
-
 
 
 impl LedMatrix {
