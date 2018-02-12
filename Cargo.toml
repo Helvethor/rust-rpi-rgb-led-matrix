@@ -1,5 +1,6 @@
 [package]
 name = "rpi-led-matrix"
+description = "Bindings for Hzeller RPi-RGB-Led-Matrix"
 version = "0.1.0"
 authors = ["Vincent Pasquier <vincentpasquier@posteo.net>"]
 build = "build.rs"
