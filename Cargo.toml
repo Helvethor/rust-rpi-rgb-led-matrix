@@ -1,7 +1,7 @@
 [package]
 name = "rpi-led-matrix"
 description = "Bindings for Hzeller RPi-RGB-Led-Matrix"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Vincent Pasquier <vincentpasquier@posteo.net>"]
 repository = "https://github.com/helvethor/rust-rpi-rgb-led-matrix"
 homepage = "https://github.com/helvethor/rust-rpi-rgb-led-matrix"
