@@ -8,6 +8,10 @@ use std::ops::Deref;
 
 mod c;
 
+pub use c::LedCanvas;
+pub use c::LedMatrixOptions;
+pub use c::LedColor;
+
 pub struct LedMatrix {
     handle: *mut c::LedMatrix,
     _options: LedMatrixOptions,
@@ -17,9 +21,6 @@ pub struct LedFont {
     handle: *mut c::LedFont
 }
 
-pub type LedCanvas = c::LedCanvas;
-pub type LedMatrixOptions = c::LedMatrixOptions;
-pub type LedColor = c::LedColor;
 
 
 impl LedMatrix {
