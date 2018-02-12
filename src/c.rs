@@ -149,6 +149,7 @@ impl Drop for LedMatrixOptions {
 }
 
 
+#[allow(dead_code)]
 impl LedCanvas {
     pub fn size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
