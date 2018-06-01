@@ -226,7 +226,6 @@ impl LedCanvas {
 }
 
 
-#[link(name = "rgbmatrix")]
 extern "C" {
     pub fn led_matrix_create_from_options(
         options: *const LedMatrixOptions,
