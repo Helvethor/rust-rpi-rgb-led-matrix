@@ -117,6 +117,13 @@ impl LedMatrixOptions {
         }
     }
 
+    pub fn set_pixel_mapper_config(&mut self, mapper: &str) {
+        unsafe {
+            let _ = CString::from_raw(self.pixel_mapper_config);
+            self.pixel_mapper_config = CString::new(mapper).unwrap().into_raw();
+        }
+    }
+
     pub fn set_hardware_pulsing(&mut self, enable: bool) {
         if enable {
             self.disable_hardware_pulsing = 0;
