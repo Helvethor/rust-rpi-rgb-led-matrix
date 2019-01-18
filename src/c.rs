@@ -5,6 +5,7 @@ pub enum LedMatrix {}
 pub enum LedCanvas {}
 pub enum LedFont {}
 
+#[derive(Clone, Copy)]
 pub struct LedColor {
     pub red: u8,
     pub green: u8,
