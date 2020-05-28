@@ -5,6 +5,7 @@ pub enum LedMatrix {}
 pub enum LedCanvas {}
 pub enum LedFont {}
 
+#[derive(Clone, Copy)]
 pub struct LedColor {
     pub red: u8,
     pub green: u8,
@@ -66,6 +67,10 @@ impl LedMatrixOptions {
 
     pub fn set_rows(&mut self, rows: u32) {
         self.rows = rows as c_int;
+    }
+
+    pub fn set_cols(&mut self, cols: u32) {
+        self.cols = cols as c_int;
     }
 
     pub fn set_chain_length(&mut self, chain_length: u32) {
