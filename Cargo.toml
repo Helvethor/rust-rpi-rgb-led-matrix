@@ -17,3 +17,9 @@ gcc = "0.3"
 
 [dependencies]
 libc = "0.2"
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = "fat"
+opt-level = 2
