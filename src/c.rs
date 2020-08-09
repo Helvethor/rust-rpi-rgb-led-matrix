@@ -1,4 +1,4 @@
-use libc::{c_char, c_int, c_uint};
+use libc::{c_char, c_int};
 use std::ffi::CString;
 
 pub enum LedMatrix {}
@@ -30,9 +30,11 @@ pub struct LedMatrixOptions {
     multiplexing: c_int,
     led_rgb_sequence: *mut c_char,
     pixel_mapper_config: *mut c_char,
-    disable_hardware_pulsing: c_uint,
-    show_refresh_rate: c_uint,
-    inverse_colors: c_uint,
+    panel_type: *mut c_char,
+    disable_hardware_pulsing: c_char,
+    show_refresh_rate: c_char,
+    inverse_colors: c_char,
+    limit_refresh_rate_hz: c_int,
 }
 
 impl LedMatrixOptions {
@@ -52,9 +54,11 @@ impl LedMatrixOptions {
             multiplexing: 0,
             led_rgb_sequence: CString::new("RGB").unwrap().into_raw(),
             pixel_mapper_config: CString::new("").unwrap().into_raw(),
+            panel_type: CString::new("").unwrap().into_raw(),
             disable_hardware_pulsing: 1,
             show_refresh_rate: 1,
-            inverse_colors: 1,
+            inverse_colors: 0,
+            limit_refresh_rate_hz: 0,
         }
     }
 
