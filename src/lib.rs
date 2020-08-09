@@ -1,17 +1,16 @@
 extern crate libc;
 mod c;
 
-use libc::{c_int, c_char};
-use std::ptr::null;
+use libc::{c_char, c_int};
 use std::ffi::CString;
 use std::path::Path;
+use std::ptr::null;
 
-pub use c::LedMatrixOptions;
 pub use c::LedColor;
-
+pub use c::LedMatrixOptions;
 
 pub struct LedCanvas {
-    handle: *mut c::LedCanvas
+    handle: *mut c::LedCanvas,
 }
 
 pub struct LedMatrix {
@@ -20,17 +19,15 @@ pub struct LedMatrix {
 }
 
 pub struct LedFont {
-    handle: *mut c::LedFont
+    handle: *mut c::LedFont,
 }
-
 
 impl LedMatrix {
     pub fn new(options: Option<LedMatrixOptions>) -> Result<LedMatrix, &'static str> {
         let options = {
             if let Some(o) = options {
                 o
-            }
-            else {
+            } else {
                 LedMatrixOptions::new()
             }
         };
@@ -39,40 +36,34 @@ impl LedMatrix {
             c::led_matrix_create_from_options(
                 &options as *const LedMatrixOptions,
                 null::<c_int>() as *mut c_int,
-                null::<c_char>() as *mut*mut*mut c_char)
+                null::<i64>() as *mut *mut *mut c_char,
+            )
         };
 
         if handle.is_null() {
             Err("Couldn't create LedMatrix")
-        }
-        else {
+        } else {
             Ok(LedMatrix {
                 handle,
-                _options: options
+                _options: options,
             })
         }
     }
 
     pub fn canvas(&self) -> LedCanvas {
-        let handle = unsafe {
-            c::led_matrix_get_canvas(self.handle)
-        };
+        let handle = unsafe { c::led_matrix_get_canvas(self.handle) };
 
         LedCanvas { handle }
     }
 
     pub fn offscreen_canvas(&self) -> LedCanvas {
-        let handle = unsafe {
-            c::led_matrix_create_offscreen_canvas(self.handle)
-        };
+        let handle = unsafe { c::led_matrix_create_offscreen_canvas(self.handle) };
 
         LedCanvas { handle }
     }
 
     pub fn swap(&self, canvas: LedCanvas) -> LedCanvas {
-        let handle = unsafe {
-            c::led_matrix_swap_on_vsync(self.handle, canvas.handle)
-        };
+        let handle = unsafe { c::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
 
         LedCanvas { handle }
     }
@@ -86,53 +77,53 @@ impl Drop for LedMatrix {
     }
 }
 
-
 impl LedFont {
     pub fn new(bdf_file: &Path) -> Result<LedFont, &'static str> {
         let string = match bdf_file.to_str() {
             Some(s) => s,
-            None => return Err("Couldn't convert path to str")
+            None => return Err("Couldn't convert path to str"),
         };
         let cstring = CString::new(string).unwrap();
 
-        let handle = unsafe {
-            c::load_font(cstring.as_ptr())
-        };
+        let handle = unsafe { c::load_font(cstring.as_ptr()) };
 
         if handle.is_null() {
             Err("Couldn't load font")
-        }
-        else {
-            Ok(LedFont {
-                handle
-            })
+        } else {
+            Ok(LedFont { handle })
         }
     }
 }
 
 impl Drop for LedFont {
     fn drop(&mut self) {
-        unsafe {
-            c::delete_font(self.handle)
-        }
+        unsafe { c::delete_font(self.handle) }
     }
 }
-
 
 impl LedCanvas {
     pub fn size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
-            c::led_canvas_get_size(self.handle,
-                &mut width as *mut c_int, &mut height as *mut c_int);
+            c::led_canvas_get_size(
+                self.handle,
+                &mut width as *mut c_int,
+                &mut height as *mut c_int,
+            );
         }
         (width as i32, height as i32)
     }
 
     pub fn set(&mut self, x: i32, y: i32, color: &LedColor) {
         unsafe {
-            c::led_canvas_set_pixel(self.handle, x as c_int, y as c_int,
-                color.red, color.green, color.blue)
+            c::led_canvas_set_pixel(
+                self.handle,
+                x as c_int,
+                y as c_int,
+                color.red,
+                color.green,
+                color.blue,
+            )
         }
     }
 
@@ -144,58 +135,85 @@ impl LedCanvas {
 
     pub fn fill(&mut self, color: &LedColor) {
         unsafe {
-            c::led_canvas_fill(self.handle,
-                color.red, color.green, color.blue);
+            c::led_canvas_fill(self.handle, color.red, color.green, color.blue);
         }
     }
 
-    pub fn draw_line(&mut self,
-        x0: i32, y0: i32, x1: i32, y1: i32, color: &LedColor)
-    {
+    pub fn draw_line(&mut self, x0: i32, y0: i32, x1: i32, y1: i32, color: &LedColor) {
         unsafe {
-            c::draw_line(self.handle,
-                x0, y0, x1, y1,
-                color.red, color.green, color.blue);
+            c::draw_line(
+                self.handle,
+                x0,
+                y0,
+                x1,
+                y1,
+                color.red,
+                color.green,
+                color.blue,
+            );
         }
     }
 
-    pub fn draw_circle(&mut self,
-        x: i32, y: i32, radius: u32, color: &LedColor)
-    {
+    pub fn draw_circle(&mut self, x: i32, y: i32, radius: u32, color: &LedColor) {
         unsafe {
-            c::draw_circle(self.handle,
-                x as c_int, y as c_int,
+            c::draw_circle(
+                self.handle,
+                x as c_int,
+                y as c_int,
                 radius as c_int,
-                color.red, color.green, color.blue);
+                color.red,
+                color.green,
+                color.blue,
+            );
         }
     }
 
-    pub fn draw_text(&mut self, font: &LedFont, text: &str,
-        x: i32, y: i32, color: &LedColor,
-        kerning_offset: i32, vertical: bool) -> i32
-    {
+    pub fn draw_text(
+        &mut self,
+        font: &LedFont,
+        text: &str,
+        x: i32,
+        y: i32,
+        color: &LedColor,
+        kerning_offset: i32,
+        vertical: bool,
+    ) -> i32 {
         let ctext = CString::new(text).unwrap();
         unsafe {
             if vertical {
-                c::vertical_draw_text(self.handle, font.handle, x as c_int, y as c_int,
-                    color.red, color.green, color.blue,
-                    ctext.as_ptr(), kerning_offset as c_int) as i32
-            }
-            else {
-                c::draw_text(self.handle, font.handle, x as c_int, y as c_int,
-                    color.red, color.green, color.blue,
-                    ctext.as_ptr(), kerning_offset as c_int) as i32
+                c::vertical_draw_text(
+                    self.handle,
+                    font.handle,
+                    x as c_int,
+                    y as c_int,
+                    color.red,
+                    color.green,
+                    color.blue,
+                    ctext.as_ptr(),
+                    kerning_offset as c_int,
+                ) as i32
+            } else {
+                c::draw_text(
+                    self.handle,
+                    font.handle,
+                    x as c_int,
+                    y as c_int,
+                    color.red,
+                    color.green,
+                    color.blue,
+                    ctext.as_ptr(),
+                    kerning_offset as c_int,
+                ) as i32
             }
         }
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{thread, time};
     use std::f64::consts::PI;
+    use std::{thread, time};
 
     fn led_matrix() -> LedMatrix {
         let mut options = LedMatrixOptions::new();
@@ -227,7 +245,7 @@ mod tests {
         let mut color = LedColor {
             red: 127,
             green: 0,
-            blue: 0
+            blue: 0,
         };
 
         canvas.clear();
@@ -246,7 +264,7 @@ mod tests {
         let mut color = LedColor {
             red: 127,
             green: 0,
-            blue: 0
+            blue: 0,
         };
         let (x, y) = (width / 2, height / 2);
 
@@ -264,12 +282,11 @@ mod tests {
     fn draw_text() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
-        let font = LedFont::new(
-            Path::new("/usr/share/fonts/misc/10x20.bdf")).unwrap();
+        let font = LedFont::new(Path::new("/usr/share/fonts/misc/10x20.bdf")).unwrap();
         let color = LedColor {
             red: 0,
             green: 127,
-            blue: 0
+            blue: 0,
         };
         let (width, height) = canvas.size();
         let text_width = 10 * 9;
@@ -279,12 +296,25 @@ mod tests {
         for x in 0..(2 * width) {
             let x = x % (10 * 9);
             canvas.clear();
-            canvas.draw_text(&font, "Mah boy! ",
-                x, baseline, &color, 0, false);
-            canvas.draw_text(&font, "Mah boy! ",
-                x - text_width, baseline, &color, 0, false);
-            canvas.draw_text(&font, "Mah boy! ",
-                x + text_width, baseline, &color, 0, false);
+            canvas.draw_text(&font, "Mah boy! ", x, baseline, &color, 0, false);
+            canvas.draw_text(
+                &font,
+                "Mah boy! ",
+                x - text_width,
+                baseline,
+                &color,
+                0,
+                false,
+            );
+            canvas.draw_text(
+                &font,
+                "Mah boy! ",
+                x + text_width,
+                baseline,
+                &color,
+                0,
+                false,
+            );
             canvas = matrix.swap(canvas);
             thread::sleep(time::Duration::new(0, 50000000));
         }
@@ -297,7 +327,7 @@ mod tests {
         let mut color = LedColor {
             red: 0,
             green: 0,
-            blue: 0
+            blue: 0,
         };
         let period = 400;
         let duration = time::Duration::new(3, 0);
@@ -320,9 +350,9 @@ mod tests {
         let mut color = LedColor {
             red: 127,
             green: 127,
-            blue: 0
+            blue: 0,
         };
-        
+
         canvas.fill(&color);
         canvas = matrix.offscreen_canvas();
         color.blue = 127;
