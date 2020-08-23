@@ -1,6 +1,10 @@
 extern crate libc;
+
+#[cfg(feature = "args")]
+pub mod args;
 mod c;
 mod led_color;
+mod options;
 
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
