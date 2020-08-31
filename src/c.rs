@@ -14,7 +14,7 @@ pub struct LedColor {
 
 type LedMatrixOptionsResult = Result<(), &'static str>;
 
-#[repr(C, packed)]
+#[repr(C)]
 pub struct LedMatrixOptions {
     hardware_mapping: *mut c_char,
     rows: c_int,
