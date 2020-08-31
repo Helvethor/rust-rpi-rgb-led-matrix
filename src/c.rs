@@ -158,6 +158,12 @@ impl LedMatrixOptions {
     }
 }
 
+impl Default for LedMatrixOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Drop for LedMatrixOptions {
     fn drop(&mut self) {
         unsafe {
@@ -231,6 +237,7 @@ impl LedCanvas {
         }
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn draw_text(
         &mut self,
         font: &LedFont,
