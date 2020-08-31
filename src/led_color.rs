@@ -1,3 +1,4 @@
+#[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::pixelcolor::{
     Bgr555, Bgr565, Bgr888, Gray2, Gray4, Gray8, GrayColor, Rgb555, Rgb565, Rgb888, RgbColor,
 };
@@ -9,6 +10,7 @@ pub struct LedColor {
     pub blue: u8,
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Bgr555> for LedColor {
     fn from(p: Bgr555) -> Self {
         LedColor {
@@ -19,6 +21,7 @@ impl From<Bgr555> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Bgr565> for LedColor {
     fn from(p: Bgr565) -> Self {
         LedColor {
@@ -29,6 +32,7 @@ impl From<Bgr565> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Bgr888> for LedColor {
     fn from(p: Bgr888) -> Self {
         LedColor {
@@ -39,6 +43,7 @@ impl From<Bgr888> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Gray2> for LedColor {
     fn from(p: Gray2) -> Self {
         LedColor {
@@ -49,6 +54,7 @@ impl From<Gray2> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Gray4> for LedColor {
     fn from(p: Gray4) -> Self {
         LedColor {
@@ -59,6 +65,7 @@ impl From<Gray4> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Gray8> for LedColor {
     fn from(p: Gray8) -> Self {
         LedColor {
@@ -69,6 +76,7 @@ impl From<Gray8> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Rgb555> for LedColor {
     fn from(p: Rgb555) -> Self {
         LedColor {
@@ -79,6 +87,7 @@ impl From<Rgb555> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Rgb565> for LedColor {
     fn from(p: Rgb565) -> Self {
         LedColor {
@@ -89,6 +98,7 @@ impl From<Rgb565> for LedColor {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl From<Rgb888> for LedColor {
     fn from(p: Rgb888) -> Self {
         LedColor {

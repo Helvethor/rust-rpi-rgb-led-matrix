@@ -5,6 +5,7 @@ version = "0.1.5"
 authors = [
     "Vincent Pasquier <vincentpasquier@posteo.net>",
     "Tyler Holmes <tyler@holmesengineering.com>",
+    "Broderick Carlin <broderick.carlin@gmail.com>",
 ]
 repository = "https://github.com/rust-rpi-led-matrix/rust-rpi-rgb-led-matrix"
 homepage = "https://docs.rs/rpi-led-matrix/"
@@ -13,12 +14,18 @@ license = "GPL-3.0"
 readme = "README.md"
 edition = "2018"
 
+[features]
+
+default = ["embeddedgraphics"]
+
+embeddedgraphics = ["embedded-graphics"]
+
 [build-dependencies]
 gcc = "0.3"
 
 [dependencies]
 libc = "0.2"
-embedded-graphics = "0.6.2"
+embedded-graphics = { version = "0.6.2", optional = true }
 
 [profile.release]
 codegen-units = 1

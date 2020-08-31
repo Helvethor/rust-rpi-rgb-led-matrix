@@ -2,6 +2,7 @@ extern crate libc;
 mod c;
 mod led_color;
 
+#[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
 use libc::{c_char, c_int};
 use std::ffi::CString;
@@ -212,6 +213,7 @@ impl LedCanvas {
     }
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl<C> DrawTarget<C> for LedCanvas
 where
     C: Into<LedColor> + PixelColor,
