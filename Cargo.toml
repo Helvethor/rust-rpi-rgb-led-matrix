@@ -18,6 +18,7 @@ gcc = "0.3"
 
 [dependencies]
 libc = "0.2"
+embedded-graphics = "0.6.2"
 
 [profile.release]
 codegen-units = 1

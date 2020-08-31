@@ -1,16 +1,10 @@
+use crate::led_color::LedColor;
 use libc::{c_char, c_int};
 use std::ffi::CString;
 
 pub enum LedMatrix {}
 pub enum LedCanvas {}
 pub enum LedFont {}
-
-#[derive(Clone, Copy)]
-pub struct LedColor {
-    pub red: u8,
-    pub green: u8,
-    pub blue: u8,
-}
 
 type LedMatrixOptionsResult = Result<(), &'static str>;
 
