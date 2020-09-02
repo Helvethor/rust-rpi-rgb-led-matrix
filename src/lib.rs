@@ -1,13 +1,16 @@
 extern crate libc;
 mod c;
+mod led_color;
 
+#[cfg(feature = "embeddedgraphics")]
+use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
 use libc::{c_char, c_int};
 use std::ffi::CString;
 use std::path::Path;
 use std::ptr::null;
 
-pub use c::LedColor;
 pub use c::LedMatrixOptions;
+pub use led_color::LedColor;
 
 pub struct LedCanvas {
     handle: *mut c::LedCanvas,
@@ -207,6 +210,30 @@ impl LedCanvas {
                 ) as i32
             }
         }
+    }
+}
+
+#[cfg(feature = "embeddedgraphics")]
+impl<C> DrawTarget<C> for LedCanvas
+where
+    C: Into<LedColor> + PixelColor,
+{
+    type Error = core::convert::Infallible;
+
+    fn draw_pixel(&mut self, item: Pixel<C>) -> Result<(), Self::Error> {
+        let Pixel(point, color) = item;
+        self.set(point.x, point.y, &color.into());
+        Ok(())
+    }
+
+    fn size(&self) -> Size {
+        let size = self.size();
+        Size::new(size.0 as u32, size.1 as u32)
+    }
+
+    fn clear(&mut self, color: C) -> Result<(), Self::Error> {
+        self.fill(&color.into());
+        Ok(())
     }
 }
 
