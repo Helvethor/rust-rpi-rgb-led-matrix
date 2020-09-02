@@ -17,7 +17,15 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: cargo build --verbose
-  
+
+  stripped-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Stripped Build
+      run: cargo build --verbose --no-default-features
+
   clippy:
     runs-on: ubuntu-latest
 
@@ -32,7 +40,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         args: --all-features
-  
+
   format:
     runs-on: ubuntu-latest
     steps:
