@@ -1,13 +1,18 @@
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::pixelcolor::{
-    Bgr555, Bgr565, Bgr888, Gray2, Gray4, Gray8, GrayColor, Rgb555, Rgb565, Rgb888, RgbColor,
+    raw::RawU24, Bgr555, Bgr565, Bgr888, Gray2, Gray4, Gray8, GrayColor, PixelColor, Rgb555,
+    Rgb565, Rgb888, RgbColor,
 };
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct LedColor {
     pub red: u8,
     pub green: u8,
     pub blue: u8,
+}
+
+impl PixelColor for LedColor {
+    type Raw = RawU24;
 }
 
 #[cfg(feature = "embeddedgraphics")]
