@@ -11,6 +11,7 @@ pub struct LedColor {
     pub blue: u8,
 }
 
+#[cfg(feature = "embeddedgraphics")]
 impl PixelColor for LedColor {
     type Raw = RawU24;
 }
