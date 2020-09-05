@@ -1,4 +1,6 @@
 use crate::led_color::LedColor;
+#[cfg(feature = "rgbmatrix-mock")]
+pub(crate) use crate::rgbmatrix_mock::*;
 use libc::{c_char, c_int};
 use std::ffi::CString;
 
@@ -31,6 +33,7 @@ pub struct LedMatrixOptions {
     limit_refresh_rate_hz: c_int,
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl LedMatrixOptions {
     pub fn new() -> LedMatrixOptions {
         LedMatrixOptions {
@@ -168,6 +171,7 @@ impl Drop for LedMatrixOptions {
 }
 
 #[allow(dead_code)]
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl LedCanvas {
     pub fn size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
@@ -273,30 +277,42 @@ impl LedCanvas {
     }
 }
 
-#[link(name = "rgbmatrix")]
+#[cfg_attr(not(feature = "rgbmatrix-mock"), link(name = "rgbmatrix"))]
+#[cfg(not(feature = "rgbmatrix-mock"))]
 extern "C" {
-    pub fn led_matrix_create_from_options(
+    pub(crate) fn led_matrix_create_from_options(
         options: *const LedMatrixOptions,
         argc: *mut c_int,
         argv: *mut *mut *mut c_char,
     ) -> *mut LedMatrix;
-    //    pub fn led_matrix_create(
+    //    pub(crate) fn led_matrix_create(
     //        rows: c_int, chained: c_int, parallel: c_int) -> *mut LedMatrix;
-    pub fn led_matrix_delete(matrix: *mut LedMatrix);
-    //    pub fn led_matrix_print_flags(out: *mut FILE);
-    pub fn led_matrix_get_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
-    pub fn led_canvas_get_size(canvas: *const LedCanvas, width: *mut c_int, height: *mut c_int);
-    pub fn led_canvas_set_pixel(canvas: *mut LedCanvas, x: c_int, y: c_int, r: u8, g: u8, b: u8);
-    pub fn led_canvas_clear(canvas: *mut LedCanvas);
-    pub fn led_canvas_fill(canvas: *mut LedCanvas, r: u8, g: u8, b: u8);
-    pub fn led_matrix_create_offscreen_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
-    pub fn led_matrix_swap_on_vsync(
+    pub(crate) fn led_matrix_delete(matrix: *mut LedMatrix);
+    //    pub(crate) fn led_matrix_print_flags(out: *mut FILE);
+    pub(crate) fn led_matrix_get_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
+    pub(crate) fn led_canvas_get_size(
+        canvas: *const LedCanvas,
+        width: *mut c_int,
+        height: *mut c_int,
+    );
+    pub(crate) fn led_canvas_set_pixel(
+        canvas: *mut LedCanvas,
+        x: c_int,
+        y: c_int,
+        r: u8,
+        g: u8,
+        b: u8,
+    );
+    pub(crate) fn led_canvas_clear(canvas: *mut LedCanvas);
+    pub(crate) fn led_canvas_fill(canvas: *mut LedCanvas, r: u8, g: u8, b: u8);
+    pub(crate) fn led_matrix_create_offscreen_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
+    pub(crate) fn led_matrix_swap_on_vsync(
         matrix: *mut LedMatrix,
         canvas: *mut LedCanvas,
     ) -> *mut LedCanvas;
-    pub fn load_font(bdf_font_file: *const c_char) -> *mut LedFont;
-    pub fn delete_font(font: *mut LedFont);
-    pub fn draw_text(
+    pub(crate) fn load_font(bdf_font_file: *const c_char) -> *mut LedFont;
+    pub(crate) fn delete_font(font: *mut LedFont);
+    pub(crate) fn draw_text(
         canvas: *mut LedCanvas,
         font: *const LedFont,
         x: c_int,
@@ -307,7 +323,7 @@ extern "C" {
         utf8_text: *const c_char,
         kerning_offset: c_int,
     ) -> c_int;
-    pub fn vertical_draw_text(
+    pub(crate) fn vertical_draw_text(
         canvas: *mut LedCanvas,
         font: *const LedFont,
         x: c_int,
@@ -318,7 +334,7 @@ extern "C" {
         utf8_text: *const c_char,
         kerning_offset: c_int,
     ) -> c_int;
-    pub fn draw_circle(
+    pub(crate) fn draw_circle(
         canvas: *mut LedCanvas,
         x: c_int,
         y: c_int,
@@ -327,7 +343,7 @@ extern "C" {
         g: u8,
         b: u8,
     );
-    pub fn draw_line(
+    pub(crate) fn draw_line(
         canvas: *mut LedCanvas,
         x0: c_int,
         y0: c_int,

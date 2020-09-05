@@ -1,6 +1,8 @@
 extern crate libc;
 mod c;
 mod led_color;
+#[cfg(feature = "rgbmatrix-mock")]
+pub(crate) mod rgbmatrix_mock;
 
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
@@ -25,6 +27,7 @@ pub struct LedFont {
     handle: *mut c::LedFont,
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl LedMatrix {
     pub fn new(options: Option<LedMatrixOptions>) -> Result<LedMatrix, &'static str> {
         let options = {
@@ -72,6 +75,7 @@ impl LedMatrix {
     }
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl Drop for LedMatrix {
     fn drop(&mut self) {
         unsafe {
@@ -80,6 +84,7 @@ impl Drop for LedMatrix {
     }
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl LedFont {
     pub fn new(bdf_file: &Path) -> Result<LedFont, &'static str> {
         let string = match bdf_file.to_str() {
@@ -98,12 +103,14 @@ impl LedFont {
     }
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl Drop for LedFont {
     fn drop(&mut self) {
         unsafe { c::delete_font(self.handle) }
     }
 }
 
+#[cfg_attr(feature = "rgbmatrix-mock", allow(unused_unsafe))]
 impl LedCanvas {
     pub fn size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
