@@ -118,25 +118,16 @@ pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMa
     let _daemon: bool = parsed_args.is_present("daemon");
     let _no_drop_privs: bool = parsed_args.is_present("no-drop-privs");
 
-    let scan_mode_bool: bool = match scan_mode {
-        0 => false,
-        _ => true,
-    };
-    let parallel_bool: bool = match parallel {
-        0 => false,
-        _ => true,
-    };
-
     options.set_hardware_mapping(gpio_mapping);
     options.set_rows(rows);
     options.set_cols(cols);
     options.set_chain_length(chain);
-    options.set_parallel(parallel_bool);
+    options.set_parallel(parallel);
     options.set_multiplexing(multiplexing);
     options.set_pixel_mapper_config(pixel_mapper);
     options.set_pwm_bits(pwm_bits).unwrap();
     options.set_brightness(brightness).unwrap();
-    options.set_scan_mode(scan_mode_bool);
+    options.set_scan_mode(scan_mode);
     options.set_row_addr_type(row_addr_type);
     options.set_limit_refresh(limit_refresh);
     options.set_led_rgb_sequence(rgb_sequence);

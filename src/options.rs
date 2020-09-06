@@ -80,12 +80,8 @@ impl LedMatrixOptions {
         self.chain_length = chain_length as c_int;
     }
 
-    pub fn set_parallel(&mut self, parallel: bool) {
-        if parallel {
-            self.parallel = 1;
-        } else {
-            self.parallel = 0;
-        }
+    pub fn set_parallel(&mut self, parallel: u32) {
+        self.parallel = parallel as c_int;
     }
 
     pub fn set_pwm_bits(&mut self, pwm_bits: u8) -> LedMatrixOptionsResult {
@@ -110,12 +106,8 @@ impl LedMatrixOptions {
         }
     }
 
-    pub fn set_scan_mode(&mut self, scan_mode: bool) {
-        if scan_mode {
-            self.scan_mode = 1 as c_int;
-        } else {
-            self.scan_mode = 0 as c_int;
-        }
+    pub fn set_scan_mode(&mut self, scan_mode: u32) {
+        self.scan_mode = scan_mode as c_int;
     }
 
     pub fn set_led_rgb_sequence(&mut self, sequence: &str) {
