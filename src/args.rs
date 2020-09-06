@@ -69,7 +69,7 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             .default_value(""))
     .arg(
         Arg::from_usage(
-            "--slowdown-gpio=[0..4] 'Slowdown GPIO. Needed for faster Pis/slower panels'")
+            "--slowdown-gpio=[0..4] 'Slowdown GPIO. Needed for faster Pis/slower panels [NOT SUPPORTED YET]'")
             .default_value("1"))
 
     // Flags
@@ -84,10 +84,10 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             "--no-hardware-pulse 'Don't use hardware pin-pulse generation'"))
     .arg(
         Arg::from_usage(
-            "--daemon 'Make the process run in the background as daemon'"))
+            "--daemon 'Make the process run in the background as daemon [NOT SUPPORTED YET]'"))
     .arg(
         Arg::from_usage(
-            "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
+            "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware [NOT SUPPORTED YET]'"))
 }
 
 pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMatrixOptions {
@@ -145,4 +145,33 @@ pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMa
     // options.set_no_drop_privs(no_drop_privs);
 
     options
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use clap::App;
+
+    #[test]
+    fn matrix_args_add() {
+        let app = add_matrix_args(App::new("test"));
+        let matches = app.get_matches_from(vec![""]);
+        let _slowdown = value_t!(matches, "slowdown-gpio", u32).unwrap();
+    }
+
+    #[test]
+    fn matrix_args_clap_basic() {
+        let app = add_matrix_args(App::new("test"));
+        let matches = app.get_matches_from(vec!["--limit-refresh", "42"]);
+        let slowdown = value_t!(matches, "limit-refresh", u32).unwrap();
+        assert_eq!(slowdown, 42);
+    }
+
+    #[test]
+    fn matrix_args_to_options() {
+        let app = add_matrix_args(App::new("test"));
+        let matches = app.get_matches_from(vec!["--pwm-dither-bits", "42"]);
+        let options = matrix_options_from_args(&matches);
+        assert_eq!(options.pwm_dither_bits, 42);
+    }
 }
