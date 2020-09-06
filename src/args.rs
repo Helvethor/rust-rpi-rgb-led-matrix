@@ -155,14 +155,14 @@ mod tests {
     #[test]
     fn matrix_args_add() {
         let app = add_matrix_args(App::new("test"));
-        let matches = app.get_matches_from(vec![""]);
+        let matches = app.get_matches_from(vec!["app"]);
         let _slowdown = value_t!(matches, "slowdown-gpio", u32).unwrap();
     }
 
     #[test]
     fn matrix_args_clap_basic() {
         let app = add_matrix_args(App::new("test"));
-        let matches = app.get_matches_from(vec!["--limit-refresh", "42"]);
+        let matches = app.get_matches_from(vec!["app", "--limit-refresh", "42"]);
         let slowdown = value_t!(matches, "limit-refresh", u32).unwrap();
         assert_eq!(slowdown, 42);
     }
@@ -170,7 +170,7 @@ mod tests {
     #[test]
     fn matrix_args_to_options() {
         let app = add_matrix_args(App::new("test"));
-        let matches = app.get_matches_from(vec!["--pwm-dither-bits", "42"]);
+        let matches = app.get_matches_from(vec!["app", "--pwm-dither-bits", "42"]);
         let options = matrix_options_from_args(&matches);
         assert_eq!(options.pwm_dither_bits, 42);
     }
