@@ -25,8 +25,10 @@ pub struct LedFont {
 }
 
 impl LedMatrix {
-    pub fn new(options: Option<LedMatrixOptions>, rt_options: Option<LedRuntimeOptions>)
-            -> Result<LedMatrix, &'static str> {
+    pub fn new(
+        options: Option<LedMatrixOptions>,
+        rt_options: Option<LedRuntimeOptions>,
+    ) -> Result<LedMatrix, &'static str> {
         let mut options = {
             if let Some(o) = options {
                 o

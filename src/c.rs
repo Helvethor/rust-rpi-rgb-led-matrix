@@ -323,7 +323,7 @@ extern "C" {
     // ) -> *mut LedMatrix;
     pub fn led_matrix_create_from_options_and_rt_options(
         opts: *mut LedMatrixOptions,
-        rt_opts: *mut LedRuntimeOptions
+        rt_opts: *mut LedRuntimeOptions,
     ) -> *mut LedMatrix;
     //    pub fn led_matrix_create(
     //        rows: c_int, chained: c_int, parallel: c_int) -> *mut LedMatrix;
