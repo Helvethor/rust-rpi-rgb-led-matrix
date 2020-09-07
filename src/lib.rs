@@ -29,20 +29,8 @@ impl LedMatrix {
         options: Option<LedMatrixOptions>,
         rt_options: Option<LedRuntimeOptions>,
     ) -> Result<LedMatrix, &'static str> {
-        let mut options = {
-            if let Some(o) = options {
-                o
-            } else {
-                LedMatrixOptions::new()
-            }
-        };
-        let mut rt_options = {
-            if let Some(o) = rt_options {
-                o
-            } else {
-                LedRuntimeOptions::new()
-            }
-        };
+        let mut options = options.unwrap_or_default();
+        let mut rt_options = rt_options.unwrap_or_default();
 
         let handle = unsafe {
             c::led_matrix_create_from_options_and_rt_options(
