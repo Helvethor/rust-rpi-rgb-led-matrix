@@ -15,15 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
+    - name: Build - All Features
+      run: cargo build --verbose --all-features
+    - name: Build - Default
       run: cargo build --verbose
-
-  stripped-build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Stripped Build
+    - name: Build - No Default Features
       run: cargo build --verbose --no-default-features
 
   clippy:
