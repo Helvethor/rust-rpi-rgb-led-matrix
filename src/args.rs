@@ -90,7 +90,9 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
 }
 
-pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> (LedMatrixOptions, LedRuntimeOptions) {
+pub fn matrix_options_from_args<'a>(
+    parsed_args: &clap::ArgMatches<'a>,
+) -> (LedMatrixOptions, LedRuntimeOptions) {
     let mut options = LedMatrixOptions::new();
     let mut rt_options = LedRuntimeOptions::new();
 

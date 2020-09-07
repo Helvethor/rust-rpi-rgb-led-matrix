@@ -203,11 +203,11 @@ impl LedRuntimeOptions {
     }
 
     pub fn set_daemon(&mut self, daemon: bool) {
-        self.daemon = if daemon {1} else {0};
+        self.daemon = if daemon { 1 } else { 0 };
     }
 
     pub fn set_drop_privileges(&mut self, drop_privileges: bool) {
-        self.drop_privileges = if drop_privileges {1} else {0};
+        self.drop_privileges = if drop_privileges { 1 } else { 0 };
     }
 
     pub fn set_do_gpio_init(&mut self, do_gpio_init: bool) {
