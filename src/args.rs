@@ -1,4 +1,4 @@
-use crate::c::LedMatrixOptions;
+use crate::c::{LedMatrixOptions, LedRuntimeOptions};
 use clap::{value_t, App, Arg};
 
 pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
@@ -69,7 +69,7 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             .default_value(""))
     .arg(
         Arg::from_usage(
-            "--slowdown-gpio=[0..4] 'Slowdown GPIO. Needed for faster Pis/slower panels [NOT SUPPORTED YET]'")
+            "--slowdown-gpio=[0..4] 'Slowdown GPIO. Needed for faster Pis/slower panels'")
             .default_value("1"))
 
     // Flags
@@ -84,14 +84,15 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             "--no-hardware-pulse 'Don't use hardware pin-pulse generation'"))
     .arg(
         Arg::from_usage(
-            "--daemon 'Make the process run in the background as daemon [NOT SUPPORTED YET]'"))
+            "--daemon 'Make the process run in the background as daemon'"))
     .arg(
         Arg::from_usage(
-            "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware [NOT SUPPORTED YET]'"))
+            "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
 }
 
-pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMatrixOptions {
+pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> (LedMatrixOptions, LedRuntimeOptions) {
     let mut options = LedMatrixOptions::new();
+    let mut rt_options = LedRuntimeOptions::new();
 
     let gpio_mapping = parsed_args.value_of("gpio-mapping").unwrap();
     let rows = value_t!(parsed_args, "rows", u32).unwrap();
@@ -109,14 +110,14 @@ pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMa
     let pwm_lsb_nanoseconds = value_t!(parsed_args, "pwm-lsb-nanoseconds", u32).unwrap();
     let pwm_dither_bits = value_t!(parsed_args, "pwm-dither-bits", u32).unwrap();
     let panel_type = parsed_args.value_of("panel-type").unwrap();
-    let _slowdown_gpio = value_t!(parsed_args, "slowdown-gpio", u32).unwrap();
+    let slowdown_gpio = value_t!(parsed_args, "slowdown-gpio", u32).unwrap();
 
     // flags
     let show_refresh: bool = parsed_args.is_present("show-refresh");
     let inverse: bool = parsed_args.is_present("inverse");
     let no_hardware_pulse: bool = parsed_args.is_present("no-hardware-pulse");
-    let _daemon: bool = parsed_args.is_present("daemon");
-    let _no_drop_privs: bool = parsed_args.is_present("no-drop-privs");
+    let daemon: bool = parsed_args.is_present("daemon");
+    let no_drop_privs: bool = parsed_args.is_present("no-drop-privs");
 
     options.set_hardware_mapping(gpio_mapping);
     options.set_rows(rows);
@@ -140,11 +141,11 @@ pub fn matrix_options_from_args<'a>(parsed_args: &clap::ArgMatches<'a>) -> LedMa
     options.set_inverse_colors(inverse);
 
     // Part of RuntimeOptions - not accessable in C-based API
-    // options.set_slowdown_gpio(slowdown_gpio);
-    // options.set_daemon(daemon);
-    // options.set_no_drop_privs(no_drop_privs);
+    rt_options.set_gpio_slowdown(slowdown_gpio);
+    rt_options.set_daemon(daemon);
+    rt_options.set_drop_privileges(!no_drop_privs);
 
-    options
+    (options, rt_options)
 }
 
 #[cfg(test)]
@@ -171,7 +172,23 @@ mod tests {
     fn matrix_args_to_options() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--pwm-dither-bits", "42"]);
-        let options = matrix_options_from_args(&matches);
+        let (options, _rt_options) = matrix_options_from_args(&matches);
         assert_eq!(options.pwm_dither_bits, 42);
+    }
+
+    #[test]
+    fn matrix_args_to_rt_options() {
+        let app = add_matrix_args(App::new("test"));
+        let matches = app.get_matches_from(vec!["app", "--slowdown-gpio", "4"]);
+        let (_options, rt_options) = matrix_options_from_args(&matches);
+        assert_eq!(rt_options.gpio_slowdown, 4);
+    }
+
+    #[test]
+    fn matrix_args_to_rt_options_flag() {
+        let app = add_matrix_args(App::new("test"));
+        let matches = app.get_matches_from(vec!["app", "--daemon"]);
+        let (_options, rt_options) = matrix_options_from_args(&matches);
+        assert_eq!(rt_options.daemon, 1);
     }
 }

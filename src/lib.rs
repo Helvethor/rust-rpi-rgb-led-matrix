@@ -250,7 +250,7 @@ mod tests {
         options.set_chain_length(2);
         options.set_hardware_pulsing(false);
         options.set_refresh_rate(true);
-        options.set_brightness(10);
+        options.set_brightness(10).unwrap();
         rt_options.set_gpio_slowdown(2);
         LedMatrix::new(Some(options), Some(rt_options)).unwrap()
     }
