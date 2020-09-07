@@ -316,19 +316,12 @@ impl LedCanvas {
 
 #[link(name = "rgbmatrix")]
 extern "C" {
-    // pub fn led_matrix_create_from_options(
-    //     options: *const LedMatrixOptions,
-    //     argc: *mut c_int,
-    //     argv: *mut *mut *mut c_char,
-    // ) -> *mut LedMatrix;
+    // unused C functions omitted
     pub fn led_matrix_create_from_options_and_rt_options(
         opts: *mut LedMatrixOptions,
         rt_opts: *mut LedRuntimeOptions,
     ) -> *mut LedMatrix;
-    //    pub fn led_matrix_create(
-    //        rows: c_int, chained: c_int, parallel: c_int) -> *mut LedMatrix;
     pub fn led_matrix_delete(matrix: *mut LedMatrix);
-    //    pub fn led_matrix_print_flags(out: *mut FILE);
     pub fn led_matrix_get_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
     pub fn led_canvas_get_size(canvas: *const LedCanvas, width: *mut c_int, height: *mut c_int);
     pub fn led_canvas_set_pixel(canvas: *mut LedCanvas, x: c_int, y: c_int, r: u8, g: u8, b: u8);
