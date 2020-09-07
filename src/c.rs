@@ -31,6 +31,14 @@ pub struct LedMatrixOptions {
     limit_refresh_rate_hz: c_int,
 }
 
+#[repr(C)]
+pub struct LedRuntimeOptions {
+    gpio_slowdown: c_int,
+    daemon: c_int,
+    drop_privileges: c_int,
+    do_gpio_init: bool,
+}
+
 impl LedMatrixOptions {
     pub fn new() -> LedMatrixOptions {
         LedMatrixOptions {
@@ -167,6 +175,39 @@ impl Drop for LedMatrixOptions {
     }
 }
 
+impl LedRuntimeOptions {
+    pub fn new() -> Self {
+        Self {
+            gpio_slowdown: 1,
+            daemon: 0,
+            drop_privileges: 1,
+            do_gpio_init: true,
+        }
+    }
+
+    pub fn set_gpio_slowdown(&mut self, gpio_slowdown: i32) {
+        self.gpio_slowdown = gpio_slowdown;
+    }
+
+    pub fn set_daemon(&mut self, daemon: i32) {
+        self.daemon = daemon;
+    }
+
+    pub fn set_drop_privileges(&mut self, drop_privileges: i32) {
+        self.drop_privileges = drop_privileges;
+    }
+
+    pub fn set_do_gpio_init(&mut self, do_gpio_init: bool) {
+        self.do_gpio_init = do_gpio_init;
+    }
+}
+
+impl Default for LedRuntimeOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[allow(dead_code)]
 impl LedCanvas {
     pub fn size(&self) -> (i32, i32) {
@@ -275,10 +316,14 @@ impl LedCanvas {
 
 #[link(name = "rgbmatrix")]
 extern "C" {
-    pub fn led_matrix_create_from_options(
-        options: *const LedMatrixOptions,
-        argc: *mut c_int,
-        argv: *mut *mut *mut c_char,
+    // pub fn led_matrix_create_from_options(
+    //     options: *const LedMatrixOptions,
+    //     argc: *mut c_int,
+    //     argv: *mut *mut *mut c_char,
+    // ) -> *mut LedMatrix;
+    pub fn led_matrix_create_from_options_and_rt_options(
+        opts: *mut LedMatrixOptions,
+        rt_opts: *mut LedRuntimeOptions
     ) -> *mut LedMatrix;
     //    pub fn led_matrix_create(
     //        rows: c_int, chained: c_int, parallel: c_int) -> *mut LedMatrix;

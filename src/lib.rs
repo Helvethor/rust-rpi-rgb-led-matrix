@@ -4,12 +4,11 @@ mod led_color;
 
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
-use libc::{c_char, c_int};
+use libc::c_int;
 use std::ffi::CString;
 use std::path::Path;
-use std::ptr::null;
 
-pub use c::LedMatrixOptions;
+pub use c::{LedMatrixOptions, LedRuntimeOptions};
 pub use led_color::LedColor;
 
 pub struct LedCanvas {
@@ -26,20 +25,27 @@ pub struct LedFont {
 }
 
 impl LedMatrix {
-    pub fn new(options: Option<LedMatrixOptions>) -> Result<LedMatrix, &'static str> {
-        let options = {
+    pub fn new(options: Option<LedMatrixOptions>, rt_options: Option<LedRuntimeOptions>)
+            -> Result<LedMatrix, &'static str> {
+        let mut options = {
             if let Some(o) = options {
                 o
             } else {
                 LedMatrixOptions::new()
             }
         };
+        let mut rt_options = {
+            if let Some(o) = rt_options {
+                o
+            } else {
+                LedRuntimeOptions::new()
+            }
+        };
 
         let handle = unsafe {
-            c::led_matrix_create_from_options(
-                &options as *const LedMatrixOptions,
-                null::<c_int>() as *mut c_int,
-                null::<i64>() as *mut *mut *mut c_char,
+            c::led_matrix_create_from_options_and_rt_options(
+                &mut options as *mut LedMatrixOptions,
+                &mut rt_options as *mut LedRuntimeOptions,
             )
         };
 
@@ -245,12 +251,14 @@ mod tests {
 
     fn led_matrix() -> LedMatrix {
         let mut options = LedMatrixOptions::new();
+        let mut rt_options = LedRuntimeOptions::new();
         options.set_hardware_mapping("adafruit-hat-pwm");
         options.set_chain_length(2);
         options.set_hardware_pulsing(false);
-        //options.set_inverse_colors(true);
-        //options.set_refresh_rate(true);
-        LedMatrix::new(Some(options)).unwrap()
+        options.set_refresh_rate(true);
+        options.set_brightness(10);
+        rt_options.set_gpio_slowdown(2);
+        LedMatrix::new(Some(options), Some(rt_options)).unwrap()
     }
 
     #[test]
