@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -21,6 +21,8 @@ jobs:
       run: cargo build --verbose
     - name: Build - No Default Features
       run: cargo build --verbose --no-default-features
+    - name: Build - Examples
+      run: cargo check --verbose --all-features --examples
 
   clippy:
     runs-on: ubuntu-latest
@@ -46,4 +48,4 @@ jobs:
             toolchain: nightly
             components: rustfmt
             override: true
-      - run: rustfmt --check --edition 2018 ./src/*
+      - run: rustfmt --check --edition 2018 ./src/* ./examples/*
