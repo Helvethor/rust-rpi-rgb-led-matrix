@@ -2,7 +2,7 @@
 use clap::{crate_version, value_t, App, Arg};
 use embedded_graphics::{
     fonts::{Font6x6, Text},
-    pixelcolor::BinaryColor,
+    pixelcolor::{BinaryColor, Rgb888},
     prelude::*,
     primitives::{Circle, Rectangle, Triangle},
     style::{PrimitiveStyle, TextStyle},
@@ -28,9 +28,9 @@ fn main() {
     let mut canvas = matrix.canvas();
 
     // Create styles used by the drawing operations.
-    let thin_stroke = PrimitiveStyle::with_stroke(BinaryColor::On, 1);
+    let thin_stroke = PrimitiveStyle::with_stroke(Rgb888::new(64, 0, 128), 1);
     let thick_stroke = PrimitiveStyle::with_stroke(BinaryColor::On, 2);
-    let fill = PrimitiveStyle::with_fill(BinaryColor::On);
+    let fill = PrimitiveStyle::with_fill(Rgb888::new(0, 128, 32));
     let text_style = TextStyle::new(Font6x6, BinaryColor::On);
 
     let yoffset = 10;
@@ -52,7 +52,7 @@ fn main() {
         Point::new(4 + 8, 8 + yoffset),
         Point::new(4 + 4, yoffset),
     )
-    .into_styled(thick_stroke)
+    .into_styled(fill)
     .draw(&mut canvas)
     .unwrap();
 
@@ -64,7 +64,7 @@ fn main() {
 
     // Draw a circle with a 3px wide stroke.
     Circle::new(Point::new((width) / 2, yoffset - 2), 5)
-        .into_styled(thick_stroke)
+        .into_styled(fill)
         .draw(&mut canvas)
         .unwrap();
 
