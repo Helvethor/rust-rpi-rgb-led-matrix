@@ -4,10 +4,14 @@ use embedded_graphics::pixelcolor::{
     Rgb555, Rgb565, Rgb888, RgbColor,
 };
 
+/// The Rust handle representing a color you'd like to display.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct LedColor {
+    /// the red channel value
     pub red: u8,
+    /// the green channel value
     pub green: u8,
+    /// the blue channel value
     pub blue: u8,
 }
 
