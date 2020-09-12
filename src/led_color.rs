@@ -4,7 +4,7 @@ use embedded_graphics::pixelcolor::{
     Rgb555, Rgb565, Rgb888, RgbColor,
 };
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct LedColor {
     pub red: u8,
     pub green: u8,
