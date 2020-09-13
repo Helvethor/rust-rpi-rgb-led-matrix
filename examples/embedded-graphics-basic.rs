@@ -1,5 +1,5 @@
 /// Example showing some basic usage of the C++ library.
-use clap::{crate_version, value_t, App, Arg};
+use clap::{crate_version, App, Arg};
 use embedded_graphics::{
     fonts::{Font6x6, Text},
     pixelcolor::{BinaryColor, Rgb888},
@@ -29,7 +29,6 @@ fn main() {
 
     // Create styles used by the drawing operations.
     let thin_stroke = PrimitiveStyle::with_stroke(Rgb888::new(64, 0, 128), 1);
-    let thick_stroke = PrimitiveStyle::with_stroke(BinaryColor::On, 2);
     let fill = PrimitiveStyle::with_fill(Rgb888::new(0, 128, 32));
     let text_style = TextStyle::new(Font6x6, BinaryColor::On);
 

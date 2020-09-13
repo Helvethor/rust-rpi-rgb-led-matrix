@@ -1,6 +1,9 @@
+//! Provides functions to add arguments to control various parameters of your
+//! RGB LED matrix.
 use crate::c::{LedMatrixOptions, LedRuntimeOptions};
 use clap::{value_t, App, Arg};
 
+/// Given a clap App, adds arguments specific to the matrix initialization.
 pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
     app
     .arg(
@@ -90,6 +93,7 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
 }
 
+/// Given the parsed matches, returns LedMatrixOptions, LedRuntimeOptions`
 pub fn matrix_options_from_args<'a>(
     parsed_args: &clap::ArgMatches<'a>,
 ) -> (LedMatrixOptions, LedRuntimeOptions) {
