@@ -6,24 +6,9 @@ which enables controlling Hub75 based displays. It includes both raw bindings
 to the library in [`rpi-led-matrix-sys`] as well as higher level, safe rust
 bindings in [`rpi-led-matrix`].
 
-# Usage
+[`rpi-led-matrix` README](./rpi-led-matrix/README.md)
 
-The examples have more detailed usage, but here is basic usage to get things rendering on your display.
-```rust
-use rpi_led_matrix::{LedMatrix, LedColor};
+[`rpi-led-matrix-sys` README](./rpi-led-matrix-sys/README.md)
 
-let matrix = LedMatrix::new(None, None).unwrap();
-let mut canvas = matrix.offscreen_canvas();
-for red in 0..255 {
-    for green in 0..255 {
-        for blue in 0..255 {
-            canvas.fill(&LedColor { red, green, blue });
-            canvas = matrix.swap(canvas);
-        }
-    }
-}
-```
-Note that if you have wirings other than the libraries "default", you will need to construct arguments to the library to specify the layout. See `LedMatrixOptions` for more information.
-
-[`rpi-led-matrix-sys`]: docs.rs/crate/rpi-led-matrix-sys
-[`rpi-led-matrix`]: docs.rs/crate/rpi-led-matrix
+[`rpi-led-matrix-sys`]: https://docs.rs/rpi-led-matrix-sys
+[`rpi-led-matrix`]: https://docs.rs/rpi-led-matrix

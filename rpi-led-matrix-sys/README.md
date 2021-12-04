@@ -3,11 +3,11 @@
 This crate provides direct, low-level bindings to the C++ library
 [`rpi-rgb-led-matrix`].
 
-## [Documentation](docs.rs/crate/rpi-led-matrix-sys)
+## [Documentation](https://docs.rs/rpi-led-matrix-sys)
 
 ## Safe Rust Bindings
 
-The [rpi-led-matrix](https://docs.rs/crate/rpi-led-matrix/) crate builds
+The [rpi-led-matrix](https://docs.rs/rpi-led-matrix/) crate builds
 safe rust bindings on top of this crate and is the recommended way to
 interact with [`rpi-rgb-led-matrix`]
 
