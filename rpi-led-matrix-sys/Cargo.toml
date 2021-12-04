@@ -3,9 +3,15 @@ name = "rpi-led-matrix-sys"
 version = "0.1.0"
 edition = "2018"
 description = "system library for the rpi-rgb-led-matrix C++ library"
+authors = [
+    "Tyler Holmes <tyler@holmesengineering.com>",
+]
 links = "rgbmatrixsys"
 build = "build.rs"
 license = "GPL-3.0"
+repository = "https://github.com/rust-rpi-led-matrix/rust-rpi-rgb-led-matrix"
+homepage = "https://docs.rs/rpi-led-matrix-sys/"
+readme = "README.md"
 
 [dependencies]
 libc = "0.2"
@@ -18,4 +24,4 @@ default = []
 c-stubs = []
 
 [package.metadata.docs.rs]
-all-features = true
+features = ["c-stubs"]
