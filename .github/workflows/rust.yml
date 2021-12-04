@@ -16,13 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build - All Features
-      run: cargo build --verbose --all-features
+      run: RUSTFLAGS="-D warnings" cargo build --verbose --all-features
     - name: Build - Default
-      run: cargo build --verbose
+      run: RUSTFLAGS="-D warnings" cargo build --verbose --features="c-stubs"
     - name: Build - No Default Features
-      run: cargo build --verbose --no-default-features
+      run: RUSTFLAGS="-D warnings" cargo build --verbose --no-default-features --features="c-stubs"
     - name: Build - Check Examples & Tests
-      run: cargo check --verbose --all-features --tests --examples
+      run: RUSTFLAGS="-D warnings" cargo check --verbose --all-features --tests --examples
 
   clippy:
     runs-on: ubuntu-latest
@@ -48,4 +48,4 @@ jobs:
             toolchain: nightly
             components: rustfmt
             override: true
-      - run: rustfmt --check --edition 2018 ./src/* ./examples/*
+      - run: rustfmt --check --edition 2018 ./*/src/* ./*/examples/* ./*/build.rs

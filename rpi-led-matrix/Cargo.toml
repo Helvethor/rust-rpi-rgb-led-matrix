@@ -1,0 +1,41 @@
+[package]
+name = "rpi-led-matrix"
+description = "Bindings for Hzeller's RPi-RGB-Led-Matrix"
+version = "0.2.2"
+authors = [
+    "Vincent Pasquier <vincentpasquier@posteo.net>",
+    "Tyler Holmes <tyler@holmesengineering.com>",
+    "Broderick Carlin <broderick.carlin@gmail.com>",
+]
+repository = "https://github.com/rust-rpi-led-matrix/rust-rpi-rgb-led-matrix"
+homepage = "https://docs.rs/rpi-led-matrix/"
+license = "GPL-3.0"
+readme = "README.md"
+edition = "2018"
+
+[dependencies]
+libc = "0.2"
+rpi-led-matrix-sys = { version = "0.1", path = "../rpi-led-matrix-sys" }
+embedded-graphics = { version = "0.6.2", optional = true }
+clap = { version = "2.33", optional = true }
+
+[features]
+default = ["embeddedgraphics"]
+embeddedgraphics = ["embedded-graphics"]
+args = ["clap"]
+c-stubs = ["rpi-led-matrix-sys/c-stubs"]
+
+[[example]]
+name = "arguments"
+required-features = ["args"]
+
+[[example]]
+name = "c-api-basic"
+required-features = ["args"]
+
+[[example]]
+name = "embedded-graphics-basic"
+required-features = ["args", "embeddedgraphics"]
+
+[package.metadata.docs.rs]
+all-features = true
