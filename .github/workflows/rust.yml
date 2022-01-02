@@ -14,7 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install Rust & Checkout
     - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: nightly
+          override: true
+
     - name: Build - All Features
       run: RUSTFLAGS="-D warnings" cargo build --verbose --all-features
     - name: Build - Default
@@ -24,11 +30,29 @@ jobs:
     - name: Build - Check Examples & Tests
       run: RUSTFLAGS="-D warnings" cargo check --verbose --all-features --tests --examples
 
+  cross build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Rust & Checkout
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: nightly
+          override: true
+
+    - name: Install Cross & Start Docker
+    - run: |
+        cargo install cross
+        sudo systemctl start docker
+
+    - name: Cross Build
+    - run: RUSTFLAGS="-D warnings" cross build --tests --examples
+
   clippy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions-rs/toolchain@v1
       with:
           toolchain: nightly
