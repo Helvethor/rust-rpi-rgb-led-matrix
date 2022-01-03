@@ -93,30 +93,35 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
             "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
 }
 
-/// Given the parsed matches, returns LedMatrixOptions, LedRuntimeOptions`
+/// Given the parsed matches, returns `(LedMatrixOptions, LedRuntimeOptions)`
+///
+/// # Panics
+/// If the values we try to parse out are invalid from any of the arguments.
+#[must_use]
+#[rustfmt::skip]
 pub fn matrix_options_from_args(
     parsed_args: &clap::ArgMatches,
 ) -> (LedMatrixOptions, LedRuntimeOptions) {
     let mut options = LedMatrixOptions::new();
     let mut rt_options = LedRuntimeOptions::new();
 
-    let gpio_mapping = parsed_args.value_of("gpio-mapping").unwrap();
-    let rows = value_t!(parsed_args, "rows", u32).unwrap();
-    let cols = value_t!(parsed_args, "cols", u32).unwrap();
-    let chain = value_t!(parsed_args, "chain", u32).unwrap();
-    let parallel = value_t!(parsed_args, "parallel", u32).unwrap();
-    let multiplexing = value_t!(parsed_args, "multiplexing", u32).unwrap();
-    let pixel_mapper = parsed_args.value_of("pixel-mapper").unwrap();
-    let pwm_bits = value_t!(parsed_args, "pwm-bits", u8).unwrap();
-    let brightness = value_t!(parsed_args, "brightness", u8).unwrap();
-    let scan_mode = value_t!(parsed_args, "scan-mode", u32).unwrap();
-    let row_addr_type = value_t!(parsed_args, "row-addr-type", u32).unwrap();
-    let limit_refresh = value_t!(parsed_args, "limit-refresh", u32).unwrap();
-    let rgb_sequence = parsed_args.value_of("rgb-sequence").unwrap();
-    let pwm_lsb_nanoseconds = value_t!(parsed_args, "pwm-lsb-nanoseconds", u32).unwrap();
-    let pwm_dither_bits = value_t!(parsed_args, "pwm-dither-bits", u32).unwrap();
-    let panel_type = parsed_args.value_of("panel-type").unwrap();
-    let slowdown_gpio = value_t!(parsed_args, "slowdown-gpio", u32).unwrap();
+    let gpio_mapping = parsed_args.value_of("gpio-mapping").expect("Invalid value given for gpio_mapping");
+    let rows = value_t!(parsed_args, "rows", u32).expect("Invalid value given for rows");
+    let cols = value_t!(parsed_args, "cols", u32).expect("Invalid value given for cols");
+    let chain = value_t!(parsed_args, "chain", u32).expect("Invalid value given for chain");
+    let parallel = value_t!(parsed_args, "parallel", u32).expect("Invalid value given for parallel");
+    let multiplexing = value_t!(parsed_args, "multiplexing", u32).expect("Invalid value given for multiplexing");
+    let pixel_mapper = parsed_args.value_of("pixel-mapper").expect("Invalid value given for pixel_mapper");
+    let pwm_bits = value_t!(parsed_args, "pwm-bits", u8).expect("Invalid value given for pwm_bits");
+    let brightness = value_t!(parsed_args, "brightness", u8).expect("Invalid value given for brightness");
+    let scan_mode = value_t!(parsed_args, "scan-mode", u32).expect("Invalid value given for scan_mode");
+    let row_addr_type = value_t!(parsed_args, "row-addr-type", u32).expect("Invalid value given for row_addr_type");
+    let limit_refresh = value_t!(parsed_args, "limit-refresh", u32).expect("Invalid value given for limit_refresh");
+    let rgb_sequence = parsed_args.value_of("rgb-sequence").expect("Invalid value given for rgb_sequence");
+    let pwm_lsb_nanoseconds = value_t!(parsed_args, "pwm-lsb-nanoseconds", u32).expect("Invalid value given for pwm_lsb_nanoseconds");
+    let pwm_dither_bits = value_t!(parsed_args, "pwm-dither-bits", u32).expect("Invalid value given for pwm_dither_bits");
+    let panel_type = parsed_args.value_of("panel-type").expect("Invalid value given for panel_type");
+    let slowdown_gpio = value_t!(parsed_args, "slowdown-gpio", u32).expect("Invalid value given for slowdown_gpio");
 
     // flags
     let show_refresh: bool = parsed_args.is_present("show-refresh");
