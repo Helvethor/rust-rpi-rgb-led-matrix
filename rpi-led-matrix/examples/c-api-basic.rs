@@ -1,5 +1,5 @@
 /// Example showing some basic usage of the C++ library.
-use clap::{crate_version, value_t, App, Arg};
+use clap::{arg, crate_version, App};
 use rpi_led_matrix::{args, LedColor, LedMatrix};
 
 const INTER_LINE_DELAY: std::time::Duration = std::time::Duration::from_millis(16 * 2);
@@ -10,8 +10,9 @@ fn main() {
             .about("shows basic usage of matrix arguments")
             .version(crate_version!())
             .arg(
-                Arg::from_usage("--loops=[LOOPS] 'number of cycles to spin the line'")
-                    .default_value("5"),
+                arg!(--loops <LOOPS> "number of cycles to spin the line")
+                    .default_value("5")
+                    .required(false),
             ),
     );
     let matches = app.get_matches();
@@ -25,7 +26,7 @@ fn main() {
         green: 255,
         blue: 255,
     };
-    let num_loops = value_t!(matches, "loops", u32).unwrap();
+    let num_loops: u32 = matches.value_of_t("loops").unwrap();
 
     for _ in 0..num_loops {
         let y: i32 = 0;
