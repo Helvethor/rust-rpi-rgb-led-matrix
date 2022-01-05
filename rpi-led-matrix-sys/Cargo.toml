@@ -13,7 +13,7 @@ repository = "https://github.com/rust-rpi-led-matrix/rust-rpi-rgb-led-matrix"
 homepage = "https://docs.rs/rpi-led-matrix-sys/"
 readme = "README.md"
 keywords = ["rpi", "raspberry-pi", "led-matrix"]
-categories = ["embedded", "no-std"]
+categories = ["embedded", "external-ffi-bindings"]
 
 [dependencies]
 libc = "0.2"

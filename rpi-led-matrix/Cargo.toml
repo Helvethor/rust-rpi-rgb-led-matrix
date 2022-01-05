@@ -13,7 +13,7 @@ license = "GPL-3.0"
 readme = "README.md"
 edition = "2021"
 keywords = ["rpi", "raspberry-pi", "led-matrix"]
-categories = ["embedded", "no-std"]
+categories = ["embedded"]
 
 [dependencies]
 libc = "0.2"
