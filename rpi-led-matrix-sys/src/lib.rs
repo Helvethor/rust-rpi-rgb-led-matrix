@@ -1,4 +1,24 @@
 //! Rust bindings into the C++ library `rpi-rgb-led-matrix`.
+//!
+//! # Features
+//!
+//! ## `c-stubs`
+//!
+//! Instead of linking to the C++ library, we make stub C functions ourselves with the same
+//! signature to enable limited testing on non-raspberry pi computers.
+//!
+//! ## `stdcpp-static-link`
+//!
+//! By default, we link dynamically to `libstdc++` as the underlying C++ library requires access
+//! to the C++ standard library. However, sometimes people want to statically link so everything
+//! is bundled in a single binary. Enabling this feature changes our build behavior to statically
+//! link to `libstdc++`.
+//!
+//! `libstdc++.a` must be "visible" to `rustc` when compiling. This means it is in the global linker
+//! search path, or you've passed it in manually, like:
+//! ```text
+//! RUSTFLAGS="-L /PATH/TO/LIBSTDC++/DIR/" cargo build --features="stdcpp-static-link"
+//! ```
 use libc::{c_char, c_int};
 
 #[cfg(feature = "c-stubs")]

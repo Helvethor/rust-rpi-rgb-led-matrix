@@ -24,6 +24,7 @@ copy_dir = "0.1"
 [features]
 default = []
 c-stubs = []
+stdcpp-static-link = []
 
 [package.metadata.docs.rs]
 features = ["c-stubs"]

@@ -30,6 +30,7 @@ default = ["embeddedgraphics"]
 embeddedgraphics = ["embedded-graphics-core"]
 args = ["clap"]
 c-stubs = ["rpi-led-matrix-sys/c-stubs"]
+stdcpp-static-link = ["rpi-led-matrix-sys/stdcpp-static-link"]
 
 [[example]]
 name = "arguments"

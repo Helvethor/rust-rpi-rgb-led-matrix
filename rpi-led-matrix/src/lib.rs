@@ -15,6 +15,27 @@
 //!     }
 //! }
 //! ```
+//!
+//! # Features
+//!
+//! ## `embeddedgraphics` (default)
+//!
+//! pulls in the [`embedded-graphics`](embedded_graphics_core) crate and implements
+//! [`DrawTarget`](embedded_graphics_core::draw_target::DrawTarget) so that you can use all of the
+//! [`embedded-graphics`](embedded_graphics_core) abstractions.
+//!
+//! ## `args`
+//!
+//! Pulls in [`clap`], enabling the [`args`](self::args) module which adds LED matrix arguments for
+//! configuration to your [`clap::App`].
+//!
+//! ## `c-stubs`
+//!
+//! Passthrough argument to [`rpi-led-matrix-sys`](rpi_led_matrix_sys). See their documentation for more info.
+//!
+//! ## `stdcpp-static-link`
+//!
+//! Passthrough argument to [`rpi-led-matrix-sys`](rpi_led_matrix_sys). See their documentation for more info.
 extern crate libc;
 
 #[cfg(feature = "args")]
