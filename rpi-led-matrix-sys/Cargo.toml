@@ -14,6 +14,18 @@ homepage = "https://docs.rs/rpi-led-matrix-sys/"
 readme = "README.md"
 keywords = ["rpi", "raspberry-pi", "led-matrix"]
 categories = ["embedded", "external-ffi-bindings"]
+include = [
+    "src/*",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE.md",
+    "build.rs",
+    "Cargo.toml",
+    "cpp-library/lib/*",
+    "cpp-library/Makefile",
+    "cpp-library/fonts/*",
+    "cpp-library/include/*",
+]
 
 [dependencies]
 libc = "0.2"
