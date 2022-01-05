@@ -1,6 +1,6 @@
 [package]
 name = "rpi-led-matrix-sys"
-version = "0.1.4"
+version = "0.2.0"
 edition = "2021"
 description = "system library for the rpi-rgb-led-matrix C++ library"
 authors = [

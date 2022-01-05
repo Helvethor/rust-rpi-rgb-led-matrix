@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-01-05
+
 - Took a lot of clippy suggestions. Added `#[must_use]` where it made sense.
   Most of the reset was documentation changes and moving from `unwrap` to `expect`.
 - Updated `clap` and `embedded-graphics` to the latest versions. `3` and `0.7` respectively.
 - Added pass-through features to `rpi-led-matrix-sys` to enable static linking to `libstdc++`
   if requested via the feature `stdcpp-static-link`.
+- Updated to 2021 edition.
 
 ## [0.3.1] - 2021-12-04
 

@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+## [0.2.0] - 2022-01-05
+
 - Took a lot of clippy suggestions. Added `#[must_use]` where it made sense.
-  Most of the reset was documentation changes and moving from `unwrap` to `expect`.
+  Most of the rest was documentation changes and moving from `unwrap` to `expect`.
 - Enable static linking to `libstdc++` if requested via the feature `stdcpp-static-link`.
+- Updated to 2021 edition.
 
 ## [0.1.4] - 2021-12-05
 
