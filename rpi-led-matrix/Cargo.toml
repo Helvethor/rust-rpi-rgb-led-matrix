@@ -1,7 +1,7 @@
 [package]
 name = "rpi-led-matrix"
 description = "Bindings for Hzeller's RPi-RGB-Led-Matrix"
-version = "0.3.1"
+version = "0.4.0"
 authors = [
     "Vincent Pasquier <vincentpasquier@posteo.net>",
     "Tyler Holmes <tyler@holmesengineering.com>",
@@ -17,7 +17,7 @@ categories = ["embedded", "no-std"]
 
 [dependencies]
 libc = "0.2"
-rpi-led-matrix-sys = { version = "0.1", path = "../rpi-led-matrix-sys" }
+rpi-led-matrix-sys = { version = "0.2", path = "../rpi-led-matrix-sys" }
 embedded-graphics-core = { version = "0.3", optional = true }
 clap = { version = "3.0", optional = true, features = ["cargo"] }
 
